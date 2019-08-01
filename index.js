@@ -3,9 +3,9 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const server = express();
-var multer  = require('multer')
+var multer  = require('multer') //->this had to be added to enable uploading images
 var upload = multer({ dest: 'uploads/' })
-var fs = require('fs');
+var fs = require('fs'); //-> this was added for implementing file system
 
 
 server.use(cors());
@@ -49,7 +49,8 @@ server.delete("/post/:id", function(req, res) {
   });
 });
 
-server.post('/profile', upload.single('avatar'), function (req, res, next) {
+server.post('/profile', upload.single('avatar'), function (req, res, next) {  
+  //## this is for adding info of uploaded file to DB
   // req.file is the `avatar` file
   console.log(req.file)
   // req.body will hold the text fields, if there were any
