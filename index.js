@@ -21,7 +21,8 @@ const Schema = mongoose.Schema;
 const albumSchema = new Schema({
   title: String,
   desc: String,
-  imgUrl: String
+  imgUrl: String,
+  uid: String
 });
 
 const Album = mongoose.model("Album", albumSchema);
@@ -31,6 +32,7 @@ server.post("/post", function(req, res) {
   post.title = req.body.title;
   post.desc = req.body.desc;
   post.imgUrl = req.body.imgUrl;
+  post.uid = req.body.uid;
   post.save();
   res.json(post);
 });
@@ -56,6 +58,14 @@ server.post('/profile', upload.single('avatar'), function (req, res, next) {
   // req.body will hold the text fields, if there were any
   res.json(req.file)
 
+})
+
+server.get("/myPosts/:uid", function(req,res){
+  Album.find({uid: req.params.uid}).then(docs=>{
+    res.json(docs);
+    console.log(docs);
+    
+  })
 })
 
 server.listen(8080, function() {
