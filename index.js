@@ -3,6 +3,10 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const server = express();
+var multer  = require('multer')
+var upload = multer({ dest: 'uploads/' })
+var fs = require('fs');
+
 
 server.use(cors());
 server.use(bodyParser.json());
@@ -44,6 +48,14 @@ server.delete("/post/:id", function(req, res) {
     console.log(docs);
   });
 });
+
+server.post('/profile', upload.single('avatar'), function (req, res, next) {
+  // req.file is the `avatar` file
+  console.log(req.file)
+  // req.body will hold the text fields, if there were any
+  res.json(req.file)
+
+})
 
 server.listen(8080, function() {
   console.log("server started");
